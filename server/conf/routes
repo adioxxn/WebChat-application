@@ -9,6 +9,7 @@ GET     /                 	controllers.Application.index
 #Route for WebSocket chat Application
 GET     /chat              controllers.WebSocketChat.index
 GET     /socket            controllers.WebSocketChat.socket
+GET     /login             controllers.WebSocketChat.login
 
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)

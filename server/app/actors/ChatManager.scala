@@ -41,8 +41,7 @@ class ChatManager extends Actor{
         sender() ! ChatActor.Many
       }
       else{
-//        workqueue.enqueue((sender(),msg))
-//        println(workqueue.size)
+
 
         if (freeWorkers.size>0){
 //          this.workqueue += ((sender(),"testing"))

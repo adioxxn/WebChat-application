@@ -15,6 +15,9 @@ class WebSocketChat @Inject()(cc: ControllerComponents) (implicit system: ActorS
 
   val manager = system.actorOf(Props[ChatManager],"Manager")
 
+  def login = Action{ implicit request =>
+    Ok(views.html.login())
+  }
   def index = Action{implicit  request =>
     Ok(views.html.chatPage())
   }
