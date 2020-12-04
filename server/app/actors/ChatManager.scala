@@ -35,6 +35,9 @@ class ChatManager extends Actor{
         println("busyworks: "+a)
         busyWorkers.drop(a)
       }
+    case Login(name, password)  =>
+      sender() ! ChatActor.LoginDone("cool")
+
 
     case Message(msg) =>
       if (this.workqueue.size>1000){
@@ -63,5 +66,6 @@ class ChatManager extends Actor{
 object ChatManager{
   case class NewChatter(chatter: ActorRef)
   case class Message(msg: String)
+  case class Login(name: String, password: String)
   case object Done
 }

@@ -1,7 +1,7 @@
 import sbtcrossproject.{crossProject, CrossType}
 
 lazy val server = (project in file("server")).settings(commonSettings).settings(
-	name := "Play-Videos-Server",
+	name := "Play-Chat",
   scalaJSProjects := Seq(client),
   pipelineStages in Assets := Seq(scalaJSPipeline),
   pipelineStages := Seq(digest, gzip),
@@ -17,16 +17,16 @@ lazy val server = (project in file("server")).settings(commonSettings).settings(
 ).enablePlugins(PlayScala).
   dependsOn(sharedJvm)
 
-lazy val client = (project in file("client")).settings(commonSettings).settings(
-	name := "Play-Videos-Client",
-  scalaJSUseMainModuleInitializer := true,
-  libraryDependencies ++= Seq(
-    "org.scala-js" %%% "scalajs-dom" % "0.9.5",
-		"org.querki" %%% "jquery-facade" % "1.2",
-		"com.typesafe.play" %%% "play-json" % "2.7.0"
-  )
-).enablePlugins(ScalaJSPlugin, ScalaJSWeb).
-  dependsOn(sharedJs)
+//lazy val client = (project in file("client")).settings(commonSettings).settings(
+//	name := "Play-Videos-Client",
+//  scalaJSUseMainModuleInitializer := true,
+//  libraryDependencies ++= Seq(
+//    "org.scala-js" %%% "scalajs-dom" % "0.9.5",
+//		"org.querki" %%% "jquery-facade" % "1.2",
+//		"com.typesafe.play" %%% "play-json" % "2.7.0"
+//  )
+//).enablePlugins(ScalaJSPlugin, ScalaJSWeb).
+//  dependsOn(sharedJs)
 
 lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)

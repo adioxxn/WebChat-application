@@ -1,0 +1,15 @@
+@* taskList1 Template File *@
+@(tasks: Seq[String])(implicit request: RequestHeader, flash: Flash)
+
+@main("Task List") {
+  <h2>Task List</h2>
+
+
+  <div>
+    <a href="@routes.TaskList1.logout()">Logout</a>
+  </div>
+
+
+
+}
+

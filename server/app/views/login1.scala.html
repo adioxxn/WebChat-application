@@ -1,0 +1,44 @@
+@* login Template File *@
+@(loginForm: Form[LoginData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Login") {
+  <h2>Login</h2>
+
+<!--<form method="get" action="validateGet1">-->
+<!--  <h3>Login with get</h3>-->
+<!--  <br>-->
+<!--  Username: <input type="text" name="Username"></input>-->
+<!--  <br>-->
+<!--  Password: <input type="password" name="password"></input>-->
+<!--  <br>-->
+<!--  <input type="submit"></input>-->
+<!--</form>-->
+
+
+  <form method="post" action="@routes.TaskList1.validateLoginPost()">
+    @helper.CSRF.formField
+    <h3>Login </h3>
+    <br>
+    Username: <input type="text" name="Username"></input>
+    <br>
+    Password: <input type="password" name="password"></input>
+    <br>
+    <input type="submit"></input>
+  </form>
+
+
+
+
+
+<form method="post" action="@routes.TaskList1.createUser()">
+  @helper.CSRF.formField
+  <h3>Create user</h3>
+  <br>
+  Username: <input type="text" name="Username"></input>
+  <br>
+  Password: <input type="password" name="password"></input>
+  <br>
+  <input type="submit"></input>
+</form>
+}
+

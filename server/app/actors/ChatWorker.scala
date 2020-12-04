@@ -13,7 +13,6 @@ class ChatWorker extends Actor{
 
     case Message(msg, chatters) =>
       for (c <- chatters) c ! ChatActor.SendMessage(msg)
-      println("here")
       sender() ! ChatManager.Done
 
     case m => println("Unhandled")
