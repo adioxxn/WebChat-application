@@ -12,12 +12,12 @@ class ChatWorker extends Actor{
   def receive = {
 
     case Message(msg, chatters) =>
-      for (c <- chatters) c ! ChatActor.SendMessage(msg)
+      for (c <- chatters) c._1 ! ChatActor.SendMessage(msg)
       sender() ! ChatManager.Done
 
     case m => println("Unhandled")
   }
 }
 object ChatWorker{
-  case class Message(msg: String, chatters: List[ActorRef])
+  case class Message(msg: String, chatters: List[(ActorRef,String)])
 }

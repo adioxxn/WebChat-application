@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject._
-import models.TaskListInMemoryModel
+import models.LoginMemoryModel
 import play.api.mvc.{AbstractController, ControllerComponents, MessagesAbstractController, MessagesControllerComponents}
 import play.api.data._
 import play.api.data.Forms._
@@ -29,7 +29,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
     postVals.map{args =>
       val username = args("Username").head
       val password = args("password").head
-      if (TaskListInMemoryModel.validateUser(username, password)){
+      if (LoginMemoryModel.validateUser(username, password)){
         Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
       }else{
         Redirect(routes.TaskList1.login()).flashing("error"-> "invalid username/password combination")
@@ -44,7 +44,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
     postVals.map{args =>
       val username = args("Username").head
       val password = args("password").head
-      if (TaskListInMemoryModel.createUser(username, password)){
+      if (LoginMemoryModel.createUser(username, password)){
         Ok(views.html.chatPage(username))
 //        Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
       }else{
@@ -54,16 +54,16 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
 
   }
 
-  def taskList = Action{ implicit request =>
-    val usernameOption = request.session.get("username")
-    usernameOption.map{username =>
-      val tasks = TaskListInMemoryModel.getTasks(username)
-      Ok(views.html.taskList1(tasks))
-
-    }.getOrElse(Redirect(routes.TaskList1.login()))
-//    val tasks = TaskListInMemoryModel.getTasks(username)
-
-  }
+//  def taskList = Action{ implicit request =>
+//    val usernameOption = request.session.get("username")
+//    usernameOption.map{username =>
+//      val tasks = LoginMemoryModel.getTasks(username)
+//      Ok(views.html.taskList1(tasks))
+//
+//    }.getOrElse(Redirect(routes.TaskList1.login()))
+////    val tasks = TaskListInMemoryModel.getTasks(username)
+//
+//  }
 
   def logout = Action{
     Redirect(routes.TaskList1.login()).withNewSession

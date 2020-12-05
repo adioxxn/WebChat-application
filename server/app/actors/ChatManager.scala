@@ -7,7 +7,7 @@ import scala.collection.mutable
 
 class ChatManager extends Actor{
 
-  private var chatters = List.empty[ActorRef]
+  private var chatters = List.empty[(ActorRef,String)]
   private var freeWorkers = List.empty[ActorRef]
   private var busyWorkers = List.empty[ActorRef]
   private var workqueue = Queue.empty[(ActorRef,String)]
@@ -19,8 +19,8 @@ class ChatManager extends Actor{
 
   import ChatManager._
   def receive = {
-    case NewChatter(chatter) => chatters ::= chatter
-      println("Got message ")
+    case NewChatter(chatter,name) => chatters ::= (chatter,name)
+      println("Got message "+name)
     case Done =>
       println("get done")
       println(workqueue.size)
@@ -35,16 +35,12 @@ class ChatManager extends Actor{
         println("busyworks: "+a)
         busyWorkers.drop(a)
       }
-    case Login(name, password)  =>
-      sender() ! ChatActor.LoginDone("cool")
-
 
     case Message(msg) =>
       if (this.workqueue.size>1000){
         sender() ! ChatActor.Many
       }
       else{
-
 
         if (freeWorkers.size>0){
 //          this.workqueue += ((sender(),"testing"))
@@ -64,7 +60,7 @@ class ChatManager extends Actor{
 }
 
 object ChatManager{
-  case class NewChatter(chatter: ActorRef)
+  case class NewChatter(chatter: ActorRef, name:String)
   case class Message(msg: String)
   case class Login(name: String, password: String)
   case object Done

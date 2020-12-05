@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorRef, Props}
 
 class ChatActor(out: ActorRef, manager:ActorRef,name:String) extends Actor{
 
-  manager ! ChatManager.NewChatter(self)
+  manager ! ChatManager.NewChatter(self,name)
   var username=name
   var password=""
 
@@ -12,20 +12,13 @@ class ChatActor(out: ActorRef, manager:ActorRef,name:String) extends Actor{
   import ChatActor._
   def receive ={
     case s: String =>
-
         manager ! ChatManager.Message(username+": "+s)
-
-
     case SendMessage(msg) =>
       out ! msg
     case LoginDone(msg) =>
       println("login success")
-
-
     case Many => println("Fail to send to server")
     case m => println("Unhandled message in ChatActor: "+ m )
-
-
   }
 
 }

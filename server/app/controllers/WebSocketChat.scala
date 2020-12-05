@@ -7,7 +7,7 @@ import akka.actor.{Actor, ActorSystem, Props}
 import play.api.libs.streams.ActorFlow
 import akka.stream.Materializer
 import actors.{ChatActor, ChatManager}
-import models.TaskListInMemoryModel
+import models.LoginMemoryModel
 
 
 @Singleton
