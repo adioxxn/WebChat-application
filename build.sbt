@@ -2,7 +2,7 @@ import sbtcrossproject.{crossProject, CrossType}
 
 lazy val server = (project in file("server")).settings(commonSettings).settings(
 	name := "Play-Chat",
-  scalaJSProjects := Seq(client),
+//  scalaJSProjects := Seq(client),
   pipelineStages in Assets := Seq(scalaJSPipeline),
   pipelineStages := Seq(digest, gzip),
   // triggers scalaJSPipeline when using compile or continuous compilation

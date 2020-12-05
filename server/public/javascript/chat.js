@@ -5,7 +5,8 @@
 const inputField = document.getElementById("chat-input");
 const outputArea = document.getElementById("chat-area");
 
-
+const username = document.getElementById("username");
+console.log(username);
 
 const socketRoute = document.getElementById("ws-route").value;
 const socket = new WebSocket(socketRoute.replace("http","ws"));

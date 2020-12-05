@@ -30,7 +30,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
       val username = args("Username").head
       val password = args("password").head
       if (TaskListInMemoryModel.validateUser(username, password)){
-        Ok(views.html.chatPage(username))
+        Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
       }else{
         Redirect(routes.TaskList1.login()).flashing("error"-> "invalid username/password combination")
       }

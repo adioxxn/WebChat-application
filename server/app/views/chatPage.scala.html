@@ -2,6 +2,7 @@
 
 @main("WebSocket Chat") {
     <h2>@username</h2>
+    <input type="hidden" id="username",value="@username">
 
     <input type="hidden" id="ws-route" value="@routes.WebSocketChat.socket.absoluteURL()">
     <textarea id="chat-area" rows="15" cols="80"></textarea>

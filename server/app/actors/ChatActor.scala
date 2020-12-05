@@ -2,25 +2,19 @@ package actors
 
 import akka.actor.{Actor, ActorRef, Props}
 
-class ChatActor(out: ActorRef, manager:ActorRef) extends Actor{
+class ChatActor(out: ActorRef, manager:ActorRef,name:String) extends Actor{
 
   manager ! ChatManager.NewChatter(self)
-  var username=""
+  var username=name
   var password=""
 
 
   import ChatActor._
   def receive ={
     case s: String =>
-      if(s.split(",").size==3 && s.split(",")(0)=="Login"){
-        val temp= s.split(",")
-        username = temp(1)
-        password  = temp(2)
-        manager ! ChatManager.Login(username,password)
-      }
-      else{
-        manager ! ChatManager.Message(s)
-      }
+
+        manager ! ChatManager.Message(username+": "+s)
+
 
     case SendMessage(msg) =>
       out ! msg
@@ -37,7 +31,7 @@ class ChatActor(out: ActorRef, manager:ActorRef) extends Actor{
 }
 
 object ChatActor {
-  def props(out: ActorRef, manager: ActorRef) = Props(new ChatActor(out,manager))
+  def props(out: ActorRef, manager: ActorRef,name:String) = Props(new ChatActor(out,manager,name:String))
 
   case class SendMessage(msg: String)
   case object Many

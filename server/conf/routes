@@ -17,7 +17,7 @@ POST    /createUser1        controllers.TaskList1.createUser
 GET     /logout1            controllers.TaskList1.logout
 
 #Route for WebSocket chat Application
-# GET     /chat              controllers.WebSocketChat.index
+GET     /chat              controllers.WebSocketChat.index
 GET     /socket            controllers.WebSocketChat.socket
 # GET     /login             controllers.WebSocketChat.login
 
