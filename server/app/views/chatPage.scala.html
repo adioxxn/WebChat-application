@@ -1,15 +1,83 @@
 @(username: String)(implicit Request: RequestHeader, flash:Flash)
 
 @main("WebSocket Chat") {
-    <h2>@username</h2>
-    <input type="hidden" id="username",value="@username">
+<style>
+ *{
+  box-sizing: border-box;
+}
+header {
+  background-color: #541;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+nav {
+  float: left;
+  width: 30%;
+  height: 500px; /* only for demonstration, should be removed */
+  background: #ccc;
+  padding: 20px;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+chat {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+  height: 500px; /* only for demonstration, should be removed */
+}
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+    </style>
+
+
+    <header>
+        <h2>@username's Chatroom</h2>
+    </header>
+
+<input type="hidden" id="username",value="@username">
 
     <input type="hidden" id="ws-route" value="@routes.WebSocketChat.socket.absoluteURL()">
-    <textarea id="chat-area" rows="15" cols="80"></textarea>
 
-    <br>
-    <input type="text" id="chat-input"  size="80"></input>
-    <button onclick="sendM()">Submit</button>
+    <section>
+        <nav>
+            <ul>
+                <h3>Invite others</h3>
+                <input type="text" id="invite-input"  size="40"></input>
+                <button onclick="sendR()">Send</button>
+                <p id="invite_people">You are talk to: All</p>
+            </ul>
+        </nav>
+
+        <chat>
+            <textarea id="chat-area" rows="25" cols="80"></textarea>
+            <input type="text" id="chat-input"  size="80"></input>
+            <button onclick="sendM()">Submit</button>
+
+        </chat>
+
+
+    </section>
+
+
+<footer>
+    <p>Footer</p>
+</footer>
+
 
     <script src="@routes.Assets.versioned("javascript/chat.js")"></script>
 

@@ -22,7 +22,7 @@ class WebSocketChat @Inject()(cc: ControllerComponents) (implicit system: ActorS
       name = username
       Ok(views.html.chatPage(name))
 
-    }.getOrElse(Redirect(routes.TaskList1.login()))
+    }.getOrElse(Redirect(routes.LoginController.login()))
   }
   def socket = WebSocket.accept[String,String]{ request =>
     ActorFlow.actorRef{ out =>

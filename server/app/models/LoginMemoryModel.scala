@@ -3,7 +3,7 @@ package models
 import collection.mutable
 object LoginMemoryModel {
 
-  private val users = mutable.Map[String, String]("Mark" -> "pass")
+  private val users = mutable.Map[String, String]("Mark" -> "pass", "Tom" -> "123")
 //  private val tasks = mutable.Map[String, List[String]]("Mark" ->List("Make video", "eat"))
 
   def validateUser(username: String, password: String): Boolean ={

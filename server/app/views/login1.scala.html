@@ -14,8 +14,7 @@
 <!--  <input type="submit"></input>-->
 <!--</form>-->
 
-
-  <form method="post" action="@routes.TaskList1.validateLoginPost()">
+  <form method="post" action="@routes.LoginController.validateLoginPost()">
     @helper.CSRF.formField
     <h3>Login </h3>
     <br>
@@ -27,10 +26,7 @@
   </form>
 
 
-
-
-
-<form method="post" action="@routes.TaskList1.createUser()">
+<form method="post" action="@routes.LoginController.createUser()">
   @helper.CSRF.formField
   <h3>Create user</h3>
   <br>

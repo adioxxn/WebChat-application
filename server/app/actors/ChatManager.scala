@@ -22,17 +22,14 @@ class ChatManager extends Actor{
     case NewChatter(chatter,name) => chatters ::= (chatter,name)
       println("Got message "+name)
     case Done =>
-      println("get done")
-      println(workqueue.size)
       if(this.workqueue.size>0){
         val work = workqueue.dequeue
 
-        sender() ! ChatWorker.Message(work._2,chatters)
+        sender() ! ChatWorker.Message(work._2,chatters,work._1)
       }
       else{
         freeWorkers ::= sender()
         val a = busyWorkers.indexOf(sender())
-        println("busyworks: "+a)
         busyWorkers.drop(a)
       }
 
@@ -46,7 +43,7 @@ class ChatManager extends Actor{
 //          this.workqueue += ((sender(),"testing"))
           busyWorkers ::= freeWorkers.head
           freeWorkers=freeWorkers.drop(1)
-          busyWorkers.head ! ChatWorker.Message(msg,chatters)
+          busyWorkers.head ! ChatWorker.Message(msg,chatters,sender())
         }
         else{
           workqueue.enqueue((sender(),msg))

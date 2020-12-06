@@ -9,7 +9,7 @@ import play.api.data.Forms._
 case class LoginData(username: String, password: String)
 
 @Singleton
-class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbstractController(cc){
+class LoginController @Inject()(cc: MessagesControllerComponents) extends MessagesAbstractController(cc){
 
   val loginForm = Form(mapping(
     "Username" -> text(3,10),
@@ -32,9 +32,9 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
       if (LoginMemoryModel.validateUser(username, password)){
         Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
       }else{
-        Redirect(routes.TaskList1.login()).flashing("error"-> "invalid username/password combination")
+        Redirect(routes.LoginController.login()).flashing("error"-> "invalid username/password combination")
       }
-    }.getOrElse(Redirect(routes.TaskList1.login()))
+    }.getOrElse(Redirect(routes.LoginController.login()))
   }
 
 
@@ -45,12 +45,12 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
       val username = args("Username").head
       val password = args("password").head
       if (LoginMemoryModel.createUser(username, password)){
-        Ok(views.html.chatPage(username))
+        Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
 //        Redirect(routes.WebSocketChat.index()).withSession("username" -> username)
       }else{
-        Redirect(routes.TaskList1.login())
+        Redirect(routes.LoginController.login())
       }
-    }.getOrElse(Redirect(routes.TaskList1.login())).flashing("error"-> "User creation failed")
+    }.getOrElse(Redirect(routes.LoginController.login())).flashing("error"-> "User creation failed")
 
   }
 
@@ -66,7 +66,7 @@ class TaskList1 @Inject()(cc: MessagesControllerComponents) extends MessagesAbst
 //  }
 
   def logout = Action{
-    Redirect(routes.TaskList1.login()).withNewSession
+    Redirect(routes.LoginController.login()).withNewSession
   }
 
 
