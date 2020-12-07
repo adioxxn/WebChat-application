@@ -8,8 +8,6 @@ import akka.actor.Actor
 class ChatWorker extends Actor {
 
   import ChatWorker._
-
-
   def receive = {
 
     case Message(msg, chatters, the_sender) =>

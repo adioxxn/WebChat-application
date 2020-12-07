@@ -17,7 +17,6 @@ class ChatManager extends Actor {
   }
 
   import ChatManager._
-
   //the manager that receive all the envelop
   def receive = {
     //all the user will regiester to here
