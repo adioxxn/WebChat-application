@@ -42,36 +42,42 @@ footer {
   color: white;
 }
 
-    </style>
+
+</style>
 
 
-    <header>
-        <h2>@username's Chatroom</h2>
-    </header>
+<header>
+    <h2>@username's Chatroom</h2>
+</header>
 
-<input type="hidden" id="username",value="@username">
+<input type="hidden" id="username" ,value="@username">
 
-    <input type="hidden" id="ws-route" value="@routes.WebSocketChat.socket.absoluteURL()">
+<input type="hidden" id="ws-route" value="@routes.WebSocketChat.socket.absoluteURL()">
 
-    <section>
-        <nav>
-            <ul>
-                <h3>Invite others</h3>
-                <input type="text" id="invite-input"  size="40"></input>
-                <button onclick="sendR()">Send</button>
-                <p id="invite_people">You are talk to: All</p>
-            </ul>
-        </nav>
+<section>
+    <nav>
+        <ul>
+            <h3>Invite others</h3>
+            <input type="text" id="invite-input" size="40"></input>
+            <button onclick="sendR()">Send</button>
+            <div id="Container">
+                <ul>
+                    <button id="All" onclick="prints(this.id)">All</button>
+                </ul>
+            </div>
+            <p id="invite_people">You are talk to: All</p>
+        </ul>
+    </nav>
 
-        <chat>
-            <textarea id="chat-area" rows="25" cols="80"></textarea>
-            <input type="text" id="chat-input"  size="80"></input>
-            <button onclick="sendM()">Submit</button>
+    <chat>
+        <textarea id="chat-area" rows="25" cols="80"></textarea>
+        <input type="text" id="chat-input" size="80"></input>
+        <button onclick="sendM()">Submit</button>
 
-        </chat>
+    </chat>
 
 
-    </section>
+</section>
 
 
 <footer>
@@ -79,6 +85,6 @@ footer {
 </footer>
 
 
-    <script src="@routes.Assets.versioned("javascript/chat.js")"></script>
+<script src="@routes.Assets.versioned(" javascript/chat.js")"></script>
 
 }

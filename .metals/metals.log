@@ -1,0 +1,10 @@
+2020.12.06 16:32:34 INFO  Started: Metals version 0.9.7 in workspace 'F:\work\435\testplay\Play-Videos' for client vscode.
+2020.12.06 16:32:35 INFO  time: initialize in 0.94s
+2020.12.06 16:32:38 WARN  Build server is not auto-connectable.
+2020.12.06 16:32:38 WARN  no build target for: F:\work\435\testplay\Play-Videos\build.sbt
+2020.12.06 16:32:44 INFO  no build target: using presentation compiler with only scala-library
+十二月 06, 2020 4:32:44 下午 org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+警告: Unmatched cancel notification for request id 2
+2020.12.06 16:44:54 WARN  no build target for: F:\work\435\testplay\Play-Videos\project\plugins.sbt
+2020.12.06 16:45:07 WARN  code navigation does not work for the file 'F:\work\435\testplay\Play-Videos\project\plugins.sbt' because it doesn't belong to a build target.
+2020.12.06 19:37:47 INFO  shutting down Metals

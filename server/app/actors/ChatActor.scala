@@ -12,7 +12,7 @@ class ChatActor(out: ActorRef, manager:ActorRef,name:String) extends Actor{
   import ChatActor._
   def receive ={
     case s: String =>
-        manager ! ChatManager.Message(username+": "+s)
+        manager ! ChatManager.Message(username + ": " +s)
     case SendMessage(msg) =>
       out ! msg
     case LoginDone(msg) =>
