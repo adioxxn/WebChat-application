@@ -13,8 +13,9 @@ class ChatWorker extends Actor {
     case Message(msg, chatters, the_sender) =>
       println("worker receive")
       if (msg.split(":").last.equals(" Close")) {
+        the_sender ! ChatActor.SendMessage("Close")
         sender() ! ChatManager.Close(the_sender)
-        sender() ! ChatManager.Done
+        sender() ! ChatManager.Done(the_sender, msg)
       }
       else {
         var exist = false
@@ -25,7 +26,7 @@ class ChatWorker extends Actor {
         //      println("message: "+send)
         if (name.equals("All")) {
           for (c <- chatters) c._1 ! ChatActor.SendMessage(msg)
-          sender() ! ChatManager.Done
+          sender() ! ChatManager.Done(the_sender, msg)
         }
         else {
           for (a <- chatters) {
@@ -41,7 +42,7 @@ class ChatWorker extends Actor {
             println(target)
             for (c <- chatters) {
               if (c._2.equals(target)) {
-                c._1 ! ChatActor.SendMessage("No such personTo:" + target)
+                c._1 ! ChatActor.SendMessage("No such a personTo:" + name)
               }
 
             }
@@ -49,7 +50,7 @@ class ChatWorker extends Actor {
           else {
             the_sender ! ChatActor.SendMessage(msg)
           }
-          sender() ! ChatManager.Done
+          sender() ! ChatManager.Done(the_sender, msg)
 
         }
 

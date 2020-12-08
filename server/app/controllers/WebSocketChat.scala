@@ -6,14 +6,17 @@ import play.api.mvc._
 import akka.actor.{Actor, ActorSystem, Props}
 import play.api.libs.streams.ActorFlow
 import akka.stream.Materializer
-import actors.{ChatActor, ChatManager}
+import actors.{ChatActor, ChatEnvelope, ChatManager}
 import models.LoginMemoryModel
 
 
 @Singleton
 class WebSocketChat @Inject()(cc: ControllerComponents) (implicit system: ActorSystem, mat: Materializer) extends AbstractController(cc){
 
-  val manager = system.actorOf(Props[ChatManager],"Manager")
+
+  val Envelope = system.actorOf(Props[ChatEnvelope],"Envelop")
+  val manager = system.actorOf(Props(classOf[ChatManager],Envelope),"Manager")
+
   var name=""
 
   def index = Action{implicit  request =>
@@ -26,7 +29,7 @@ class WebSocketChat @Inject()(cc: ControllerComponents) (implicit system: ActorS
   }
   def socket = WebSocket.accept[String,String]{ request =>
     ActorFlow.actorRef{ out =>
-      ChatActor.props(out,manager,name)
+      ChatActor.props(out,Envelope,name)
     }
   }
 

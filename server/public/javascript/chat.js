@@ -69,8 +69,10 @@ window.onbeforeunload = function (event) {
 };
 //handle the message receive from server
 socket.onmessage = (event) =>{
+    console.log(event.data)
     var string = event.data.split("To:");
     var name = string.pop()
+    console.log(string)
     if(doc.indexOf(name)>-1){//if it is to all people
         var chat = chatroom.get(name)
         chatroom.set(name, chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
@@ -89,6 +91,7 @@ socket.onmessage = (event) =>{
                         outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
                     }
         }
+
         else{//if it is from someone you not know yet
             doc.push(senderName)
             var str = "<ul>"
