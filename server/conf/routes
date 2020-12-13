@@ -6,7 +6,7 @@
 GET     /                 	controllers.Application.index
 
 #v1
-GET     /login1             controllers.LoginController.login
+GET     /login             controllers.LoginController.login
 # GET     /validateGet1          controllers.TaskList1.validateLoginGet(username,password)
 # GET     /taskList1          controllers.TaskList1.taskList
 POST    /validatePost1      controllers.LoginController.validateLoginPost

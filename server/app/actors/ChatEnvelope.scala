@@ -9,26 +9,35 @@ import scala.collection.mutable
 class ChatEnvelope extends Actor {
 
 //  private val managers = context.actorOf()
-  private var workQueue = Queue.empty[(ActorRef, String)]
+  private val workQueue = Queue.empty[(ActorRef, String)]
   private var manager = List.empty[ActorRef]
   private var available = false
 
   import ChatEnvelope._
   def receive = {
 
+    case Connect =>
+      println("Connect")
+      manager ::= sender()
+      println("manager size:",manager.size)
+      available = true
+
     case ReceiveNewChatter(chatter, name) =>
-      println("sfs")
       manager.head ! ChatManager.NewChatter(chatter,name)
 
     case Message(msg) =>
+      println(msg)
       if (this.workQueue.size > 1000) {
         sender() ! ChatActor.Many
       }
       else {
-        workQueue.enqueue((sender(), msg))
+        this.workQueue.enqueue((sender(), msg))
         println(workQueue.size)
         manager.head ! ChatManager.Work(sender(), msg)
       }
+
+    case receiveClose1(username)=>
+        manager.head ! ChatManager.receiveClose(username)
 
 
 //    case Message(msg) =>
@@ -50,13 +59,10 @@ class ChatEnvelope extends Actor {
 
 
 
+
     case Finish =>
-      workQueue.dequeue()
-
-
-    case Connect =>
-      manager ::= sender()
-      available = true
+//      println("one job finish"+this.workQueue.size)
+      this.workQueue.dequeue()
 
 
     //for unhandle case
@@ -73,7 +79,7 @@ object ChatEnvelope{
 
   case object Finish
   case class ReceiveNewChatter(chatter: ActorRef, name: String)
-
+  case class receiveClose1(name:String)
   case class Message(msg: String)
   case object Connect
 

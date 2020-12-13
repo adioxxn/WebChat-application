@@ -6,6 +6,7 @@ const inputField = document.getElementById("chat-input");
 const outputArea = document.getElementById("chat-area");
 const inviteField = document.getElementById("invite-input");
 const invitePeople = document.getElementById("invite_people");
+
 const username = document.getElementById("username");
 const socketRoute = document.getElementById("ws-route").value;
 const socket = new WebSocket(socketRoute.replace("http","ws"));
@@ -70,41 +71,60 @@ window.onbeforeunload = function (event) {
 //handle the message receive from server
 socket.onmessage = (event) =>{
     console.log(event.data)
-    var string = event.data.split("To:");
-    var name = string.pop()
-    console.log(string)
-    if(doc.indexOf(name)>-1){//if it is to all people
-        var chat = chatroom.get(name)
-        chatroom.set(name, chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
-        if(name ==  receiver.substring(3,receiver.length)){
-            outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
-        }
+    var list = event.data.split(",")
+    var work = list.shift()
+    console.log(list)
+    if(work == "ActiveUser"){
+
+
+        var str = "<ul>"
+        list.forEach(function(slide) {
+            str += '<ul>'+ slide + '</ul>';
+        });
+        str += '</ul>';
+        document.getElementById("ActiveUser").innerHTML = str;
+
+
     }
     else{
-        var senderName = event.data.split(":").shift()
-        console.log(senderName)
-        //if it is from someone you know
-        if(doc.includes(senderName)){
-            var chat = chatroom.get(senderName)
-            chatroom.set(senderName,chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
-            if(senderName ==  receiver.substring(3,receiver.length)){
-                        outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
-                    }
+        var string = event.data.split("To:");
+        var name = string.pop()
+        console.log(string)
+        if(doc.indexOf(name)>-1){//if it is to all people
+            var chat = chatroom.get(name)
+            chatroom.set(name, chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
+            if(name ==  receiver.substring(3,receiver.length)){
+                outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
+            }
         }
+        else{
+            var senderName = event.data.split(":").shift()
+            console.log(senderName)
+            //if it is from someone you know
+            if(doc.includes(senderName)){
+                var chat = chatroom.get(senderName)
+                chatroom.set(senderName,chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
+                if(senderName ==  receiver.substring(3,receiver.length)){
+                            outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
+                        }
+            }
 
-        else{//if it is from someone you not know yet
-            doc.push(senderName)
-            var str = "<ul>"
-            doc.forEach(function(slide) {
-              str += '<button id='+slide+ ' onclick="prints(this.id)">'+ slide + '</button>';
-            });
-            str += '</ul>';
-            document.getElementById("Container").innerHTML = str;
-            chatroom.set(senderName,event.data.substring(0,event.data.length-name.length-3))
+            else{//if it is from someone you not know yet
+                doc.push(senderName)
+                var str = "<ul>"
+                doc.forEach(function(slide) {
+                  str += '<button id='+slide+ ' onclick="prints(this.id)">'+ slide + '</button>';
+                });
+                str += '</ul>';
+                document.getElementById("Container").innerHTML = str;
+                chatroom.set(senderName,event.data.substring(0,event.data.length-name.length-3))
+
+            }
 
         }
-
     }
+
+
 
 
 

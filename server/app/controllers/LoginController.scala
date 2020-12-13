@@ -19,7 +19,7 @@ class LoginController @Inject()(cc: MessagesControllerComponents) extends Messag
 
   //login page
   def login = Action { implicit request =>
-    Ok(views.html.login1(loginForm))
+    Ok(views.html.login(loginForm))
   }
 
 
