@@ -1,0 +1,60 @@
+@* login Template File *@
+@(loginForm: Form[LoginData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Login") {
+<style>
+
+#Signup{
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+#create {
+  display: none;
+  text-align: center;
+  vertical-align: middle;
+}
+</style>
+
+<div id="Signup" align="center">
+  <form method="post" action="@routes.LoginController.validateLoginPost()">
+    @helper.CSRF.formField
+    <h3>Login </h3>
+    <br>
+    Username: <input type="text" name="Username">
+    <br>
+    <br>
+    Password: <input type="password" name="password">
+    <br>
+    <br>
+
+    <input type="submit">
+    <input type="button" value="Create Account" onclick="CreatePop()">
+  </form>
+</div>
+
+<div  id="create" align="center">
+  <form method="post" action="@routes.LoginController.createUser()">
+    @helper.CSRF.formField
+    <h3>Create user</h3>
+    <br>
+    Username: <input type="text" name="Username"></input>
+    <br>
+    <br>
+    Password: <input type="password" name="password"></input>
+    <br>
+    <br>
+    <input type="submit"></input>
+  </form>
+</div>
+
+}
+
+
+<script>
+function CreatePop() {
+  document.getElementById("create").style.display = "block";
+}
+</script>
+
