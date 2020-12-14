@@ -5,11 +5,12 @@ import akka.actor.TypedActor.dispatcher
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.{CircuitBreaker, ask, pipe}
 import akka.util.Timeout
-
 import scala.collection.mutable.Queue
 import scala.collection.mutable
 import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext, Future, TimeoutException}
+
 /**
  * Chat manager will organize all the chatter and msg work and send it to the work to process it
  * @param envelope the envelope actor will send all the work to manager
@@ -32,6 +33,7 @@ class ChatManager(envelope:ActorRef) extends Actor {
     freeWorkers ::= temp
     allWorkers ::= temp
   }
+
 
   import akka.pattern.pipe
   import ChatManager._

@@ -14,8 +14,7 @@ stay in your chatlist. Although you can still send message to someone is offline
 
 How to user this app:
 This application request sbt to compile the application. For this reason, you need to have JDK 1.8 and sbt installed.
-
-Then, you need to go to the PlayChat file in the terminal or using intellij to "import this porject". After that,
+Then, you need to go to the PlayChat file in the terminal or using intellij to "import Play-Chat project". After that,
 you run "sbt run" in you terminal or using intellij by the sbt shell . After the compile and running, you go to
 http://localhost:9000/login to create an account or login. After you login, you will jump to http://localhost:9000/chat
 page which you can chat with other users.
@@ -24,3 +23,14 @@ This application was build in Play Framework which was built on Akka and provide
 play frame provide a good error report system. It will display the error message and error location on the webpage.
 On the other hand, play frame work using logical HTTP representation (GET， POST，etc), make some calls of its own and
 returns the result back to the browser.
+
+This project was follow the forward flow control pattern which mean client will send the request to a route, route send
+the request file server Then server send it to the client directly. Such that the request flow toward their destination
+vai the shortest paht and response also not waste on their way back. Because the servers comminicate directly with the
+clients. In this case, once user login, it will create an actor as client and send the message to the envelop actor.
+The Envelope Actor was build by manager queue and circuit breaker pattern. It will store the request as work and send it
+to the server. Once the work queue above the limit, it will stop receiving message and tell client that we are full
+instead of wasting their time. For the work, I have a manager actor and the worker actor. manager will take the work
+request from the envelope and send the work to the workers. worker will finish the work and send it back to the client
+and tell manager when their finish the job. Once the user receive the message, the actor will send the message to the
+web socket which will using the message to display the information.
