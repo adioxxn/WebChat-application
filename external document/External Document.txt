@@ -1,0 +1,26 @@
+Xinnan Xie
+11215372
+xix227
+
+This app will allow user to create a chat room that allow user to making group chat or private chat with other user.
+User will be able to see all the message that user receive. Once user login or create an account. User will jump to
+chatroom. The Current active user will be shown on the left panel and user can send them private chat once enter their
+name on the invite section. It will create an empty chatroom between these users. this message will be only shown
+between you and the target user. Once you close the tag or logout and login again, all the private chat will still
+in your chatroom page and you can view it anytime. However, you cannot send a message to the user whose are currently
+offline. Normally, you cannot add a person is not online, but once you add another person into your chat list, it will
+stay in your chatlist. Although you can still send message to someone is offline, but you will have a negative reply
+"this user is currently offline".
+
+How to user this app:
+This application request sbt to compile the application. For this reason, you need to have JDK 1.8 and sbt installed.
+
+Then, you need to go to the PlayChat file in the terminal or using intellij to "import this porject". After that,
+you run "sbt run" in you terminal or using intellij by the sbt shell . After the compile and running, you go to
+http://localhost:9000/login to create an account or login. After you login, you will jump to http://localhost:9000/chat
+page which you can chat with other users.
+
+This application was build in Play Framework which was built on Akka and provides fully asynchronous model. Second,
+play frame provide a good error report system. It will display the error message and error location on the webpage.
+On the other hand, play frame work using logical HTTP representation (GET， POST，etc), make some calls of its own and
+returns the result back to the browser.
