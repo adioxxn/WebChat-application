@@ -5,12 +5,21 @@
 # Home page
 GET     /                 	controllers.Application.index
 
-#Route for WebSocket chat Application
+#v1
 GET     /login             controllers.LoginController.login
-POST    /validatePost      controllers.LoginController.validateLoginPost
-POST    /createUser        controllers.LoginController.createUser
+# GET     /validateGet1          controllers.TaskList1.validateLoginGet(username,password)
+# GET     /taskList1          controllers.TaskList1.taskList
+POST    /validatePost1      controllers.LoginController.validateLoginPost
+# POST    /validateForm1      controllers.TaskList1.validateLoginForm
+POST    /createUser1        controllers.LoginController.createUser
+# POST    /addTask1           controllers.TaskList1.addTask
+# POST    /deleteTask1        controllers.TaskList1.deleteTask
+GET     /logout1            controllers.LoginController.logout
+
+#Route for WebSocket chat Application
 GET     /chat              controllers.WebSocketChat.index
 GET     /socket            controllers.WebSocketChat.socket
+# GET     /login             controllers.WebSocketChat.login
 
 # Prefix must match `play.assets.urlPrefix`
 GET        /assets/*file                 controllers.Assets.at(file)

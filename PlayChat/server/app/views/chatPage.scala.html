@@ -41,17 +41,13 @@ footer {
   text-align: center;
   color: white;
 }
-#error {
-   display: none;
-
-}
 
 
 </style>
 
 
 <header>
-    <h2 id="title">@username's Chatroom</h2>
+    <h2>@username's Chatroom</h2>
 </header>
 
 <input type="hidden" id="username" ,value="@username">
@@ -64,10 +60,6 @@ footer {
             <h3>Invite others</h3>
             <input type="text" id="invite-input" size="40"></input>
             <button onclick="sendR()">Add</button>
-            <div id="error">
-                <ul >No such a person/usesr currently offline</ul>
-            </div>
-
             <div id="Container">
                 <ul>
                     <button id="All" onclick="prints(this.id)">All</button>
@@ -77,6 +69,7 @@ footer {
             <p>Current Active User</p>
             <div id="ActiveUser">
                 <ul>
+
                 </ul>
             </div>
 
@@ -95,7 +88,7 @@ footer {
 
 
 <footer>
-    <p></p>
+    <p>Footer</p>
 </footer>
 
 
