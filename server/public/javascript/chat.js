@@ -1,58 +1,61 @@
 /**
  *
  */
-
+//initial data
 const inputField = document.getElementById("chat-input");
 const outputArea = document.getElementById("chat-area");
 const inviteField = document.getElementById("invite-input");
 const invitePeople = document.getElementById("invite_people");
-
-const username = document.getElementById("username");
+const title = document.getElementById("title");
 const socketRoute = document.getElementById("ws-route").value;
 const socket = new WebSocket(socketRoute.replace("http","ws"));
-
-var doc = ["All"];
-var chatroom = new Map();
+var doc = ["All"];//message from different user
+var chatroom = new Map(); // store all the message
 chatroom.set("All","")
-
+var activeUser = []//store all active user
 var receiver = "To:All"
 
 
-//window.onload = console.log(localStorage.getItem("storageName").value);
-
-inputField.onkeydown = (event) => {
+inputField.onkeydown = (event) => {//if enter send message
     if(event.key ==="Enter"){
         socket.send(inputField.value+receiver);
         inputField.value="";
+        document.getElementById("error").style.display = "none";
     }
 }
 
-function sendM(){
-    //username+": "+
-//    console.log(username.value)
+function sendM(){//if press send, send message
+
     socket.send(inputField.value+receiver);
     inputField.value="";
-
+    document.getElementById("error").style.display = "none";
 }
-//change add different chatter
+// add different chatter
 function sendR(){
-//    receiver="To:"+inviteField.value;
-    doc.push(inviteField.value);
-    chatroom.set(inviteField.value,"");
+    document.getElementById("error").style.display = "none";
+    if(activeUser.includes(inviteField.value)){//if that user are online, add it to the user
+        doc.push(inviteField.value);
+        chatroom.set(inviteField.value,"");
+        inviteField.value=""
+        //redraw all the chat room
+        var str = "<ul>"
+        doc.forEach(function(slide) {
+          str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
+        });
+        str += '</ul>';
+        document.getElementById("Container").innerHTML = str;
+    }
+    else{
+      document.getElementById("error").style.display = "block";//display error message
 
-    //redraw all the chat room
-    var str = "<ul>"
-    doc.forEach(function(slide) {
-      str += '<button id='+slide+ ' onclick="prints(this.id)">'+ slide + '</button>';
-    });
-    str += '</ul>';
-    document.getElementById("Container").innerHTML = str;
+    }
+
 
 }
 
 //function that change chatroom
-function prints(input){
-
+function change(input){
+    document.getElementById("error").style.display = "none";
     var current = receiver.substring(3,receiver.length)
     invitePeople.innerHTML  = "You are talk to: "+input;
     inviteField.value="";
@@ -70,26 +73,22 @@ window.onbeforeunload = function (event) {
 };
 //handle the message receive from server
 socket.onmessage = (event) =>{
-    console.log(event.data)
     var list = event.data.split(",")
     var work = list.shift()
-    console.log(list)
-    if(work == "ActiveUser"){
-
-
+    if(work == "ActiveUser"){//if it is active user message, update the list
+        activeUser = list
         var str = "<ul>"
         list.forEach(function(slide) {
             str += '<ul>'+ slide + '</ul>';
         });
         str += '</ul>';
         document.getElementById("ActiveUser").innerHTML = str;
-
-
     }
     else{
         var string = event.data.split("To:");
         var name = string.pop()
         console.log(string)
+        var username = title.innerHTML.split("'").shift()
         if(doc.indexOf(name)>-1){//if it is to all people
             var chat = chatroom.get(name)
             chatroom.set(name, chat+"\n"+event.data.substring(0,event.data.length-name.length-3))
@@ -107,26 +106,30 @@ socket.onmessage = (event) =>{
                 if(senderName ==  receiver.substring(3,receiver.length)){
                             outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
                         }
+            }//if it is your message
+            else if (senderName == username){
+                doc.push(name)
+                var str = "<ul>"
+                doc.forEach(function(slide) {
+                  str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
+                });
+                str += '</ul>';
+                document.getElementById("Container").innerHTML = str;
+                chatroom.set(name,event.data.substring(0,event.data.length-name.length-3))
             }
 
             else{//if it is from someone you not know yet
                 doc.push(senderName)
                 var str = "<ul>"
                 doc.forEach(function(slide) {
-                  str += '<button id='+slide+ ' onclick="prints(this.id)">'+ slide + '</button>';
+                  str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
                 });
                 str += '</ul>';
                 document.getElementById("Container").innerHTML = str;
                 chatroom.set(senderName,event.data.substring(0,event.data.length-name.length-3))
-
             }
 
         }
     }
-
-
-
-
-
 
 }

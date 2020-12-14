@@ -13,7 +13,7 @@ class LoginController @Inject()(cc: MessagesControllerComponents) extends Messag
 
   //the format for login/create user password or name
   val loginForm = Form(mapping(
-    "Username" -> text(3, 10),
+    "Username" -> text(3, 10),//min 3letters and max 10 words
     "Password" -> text(8)
   )(LoginData.apply)(LoginData.unapply))
 
@@ -23,7 +23,10 @@ class LoginController @Inject()(cc: MessagesControllerComponents) extends Messag
   }
 
 
-  //login function
+  /**
+   * Check whether the username and password is valid
+   * @return chatroom page or refresh the page
+   */
   def validateLoginPost = Action { implicit request =>
     val postVals = request.body.asFormUrlEncoded
     postVals.map { args =>
@@ -39,6 +42,10 @@ class LoginController @Inject()(cc: MessagesControllerComponents) extends Messag
 
 
   //create user function
+  /**
+   * create the user if it not exist and format valid
+   * @return to the chatroom page
+   */
   def createUser = Action { implicit request =>
     val postVals = request.body.asFormUrlEncoded
     postVals.map { args =>
@@ -51,11 +58,6 @@ class LoginController @Inject()(cc: MessagesControllerComponents) extends Messag
       }
     }.getOrElse(Redirect(routes.LoginController.login())).flashing("error" -> "User creation failed")
 
-  }
-
-
-  def logout = Action {
-    Redirect(routes.LoginController.login()).withNewSession
   }
 
 
