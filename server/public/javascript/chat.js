@@ -10,9 +10,9 @@ const title = document.getElementById("title");
 const socketRoute = document.getElementById("ws-route").value;
 const socket = new WebSocket(socketRoute.replace("http","ws"));
 
-var doc = ["All"];
+var doc = [];
 var chatroom = new Map();
-chatroom.set("All","")
+//chatroom.set("All","")
 var activeUser = []//store all active user
 
 var receiver = "To:All"

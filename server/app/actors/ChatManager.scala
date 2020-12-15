@@ -45,6 +45,9 @@ class ChatManager(envelope:ActorRef) extends Actor {
     case NewChatter(chatter, name) =>
       chatters = chatters+ ( name-> chatter)
       var count =0
+      for (c <- chatroom.reverse){
+        chatter ! ChatActor.ReceiveChatroom(c)
+      }
       for (c <- allWorkers) {
         count=count+1
         c ! ChatWorker.update(chatters,count)
