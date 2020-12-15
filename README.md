@@ -1,5 +1,9 @@
+## Web
+This project was generated with Play Framework version 2.8.5
 
-The external document will be store in the External Document folder. 
 
-Run :
-in terminal, go to the  Play-Chat folder. use "sbt run" to run this application. Then go to http://localhost:9000/login to login.
+## server
+Run `sbt run` for a dev server. Navigate to http://localhost:9000/login. The app will automatically reload if you change any of the source files.
+
+## Build
+Run `sbt build` to build the project. 
