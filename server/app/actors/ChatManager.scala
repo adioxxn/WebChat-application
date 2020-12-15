@@ -23,6 +23,7 @@ class ChatManager(envelope:ActorRef) extends Actor {
 
   implicit val ec: ExecutionContext = context.dispatcher
   implicit val timeout: Timeout = 5.seconds
+  private var chatroom = List("All")
   private var chatters = Map.empty[String, ActorRef]
   private var freeWorkers = List.empty[ActorRef]
   private var allWorkers = List.empty[ActorRef]
@@ -47,6 +48,14 @@ class ChatManager(envelope:ActorRef) extends Actor {
       for (c <- allWorkers) {
         count=count+1
         c ! ChatWorker.update(chatters,count)
+      }
+
+    case CreateChatroom(msg) =>
+      chatroom ::= msg
+      var count =0
+      for (c <- allWorkers) {
+        count=count+1
+        c ! ChatWorker.CChatroom(msg,count)
       }
 
     //worker done
@@ -128,6 +137,7 @@ object ChatManager {
 
   case class NewChatter(chatter: ActorRef, name: String)
 
+  case class CreateChatroom(msg:String)
   case class Message(msg: String)
 
   case class Work(from: ActorRef, msg: String)

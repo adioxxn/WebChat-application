@@ -24,7 +24,8 @@ class ChatEnvelope extends Actor {
     case ReceiveNewChatter(chatter, name) =>
       manager.head ! ChatManager.NewChatter(chatter,name)
       sender() ! ChatActor.Connect
-
+    case newChatroom(msg) =>
+      manager.head ! ChatManager.CreateChatroom(msg)
     case Message(msg) =>
       //if too many,refuse
       if (this.workQueue.size > 1000) {
@@ -55,6 +56,7 @@ object ChatEnvelope{
 
 
   case object Finish
+  case class newChatroom(msg:String)
   case class ReceiveNewChatter(chatter: ActorRef, name: String)
   case class receiveClose1(name:String)
   case class Message(msg: String)

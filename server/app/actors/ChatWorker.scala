@@ -16,7 +16,7 @@ import scala.collection.mutable.Queue
 class ChatWorker extends Actor with ActorLogging {
   //keep all the chatters ref
   private var chatters = Map.empty[ String, ActorRef]
-
+  private var chatroom = List("All")
   import ChatWorker._
   def receive = {
     //when a new user come, update the chatters info and update it to all the users
@@ -25,8 +25,12 @@ class ChatWorker extends Actor with ActorLogging {
       if (num.equals(1)){
         chatters foreach (x => x._2 ! ChatActor.ReceiveUsers(chatters.keySet))
       }
-    case POP =>
-      print("something")
+
+    case CChatroom(msg, num) =>
+      chatroom ::= msg
+      if (num.equals(1)){
+        chatters foreach (x => x._2 ! ChatActor.ReceiveChatroom(msg))
+      }
 
     //when a work receive, send it to the users
     case Message(msg) =>
@@ -38,7 +42,7 @@ class ChatWorker extends Actor with ActorLogging {
         resend ! ChatActor.End
         sender() ! ChatManager.Close(the_sender,msg)//tell others that one user logout
       }
-        else if (target.equals("All")) {//if it send to the public chatroom
+        else if (chatroom.contains(target)) {//if it send to the public chatroom
         chatters foreach (x => x._2 ! ChatActor.SendMessage(msg))
         sender() ! ChatManager.Done(msg)
       }
@@ -62,6 +66,6 @@ object ChatWorker {
 
   case class Message(msg: String)
   case object POP
-
+  case class CChatroom(msg:String, num:Int)
   case class update(chatter: Map[String, ActorRef],num: Int)
 }

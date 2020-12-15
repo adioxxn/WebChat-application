@@ -34,6 +34,18 @@ function sendM(){
     document.getElementById("error").style.display = "none";
 
 }
+
+function sendC(){
+    const name = document.getElementById("create-input").value;
+
+    socket.send("Create Chatroom:"+document.getElementById("create-input").value)
+
+    document.getElementById("create-input").value = "";
+    document.getElementById("error").style.display = "none";
+
+}
+
+
 //change add different chatter
 function sendR(){
     document.getElementById("error").style.display = "none";
@@ -89,6 +101,19 @@ socket.onmessage = (event) =>{
 
 
     }
+    else if (work =="newChatroom"){
+        var name = list.shift()
+        if(!doc.indexOf(name)>-1){
+            doc.push(name)
+            var str = "<ul>"
+            doc.forEach(function(slide) {
+                str += '<button id='+slide+ ' onclick="change(this.id) ">'+ slide + '</button>';
+            });
+            str += '</ul>';
+            document.getElementById("Container").innerHTML = str
+            chatroom.set(name,"")
+        }
+    }
     else{//if it is msg
         var string = event.data.split("To:");
         var name = string.pop()
@@ -112,24 +137,24 @@ socket.onmessage = (event) =>{
                             outputArea.value += "\n"+ event.data.substring(0,event.data.length-name.length-3);
                         }
             }
-        else if (senderName == username){
-            doc.push(name)
-            var str = "<ul>"
-            doc.forEach(function(slide) {
-                str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
-            });
-            str += '</ul>';
-            document.getElementById("Container").innerHTML = str;
-            chatroom.set(name,event.data.substring(0,event.data.length-name.length-3))
-                    }
+            else if (senderName == username){
+                doc.push(name)
+                var str = "<ul>"
+                doc.forEach(function(slide) {
+                    str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
+                });
+                str += '</ul>';
+                document.getElementById("Container").innerHTML = str;
+                chatroom.set(name,event.data.substring(0,event.data.length-name.length-3))
+                        }
             else{//if it is from someone you not know yet
                 doc.push(senderName)
                 var str = "<ul>"
                 doc.forEach(function(slide) {
-                  str += '<button id='+slide+ ' onclick="change(this.id)">'+ slide + '</button>';
+                  str += '<button id='+slide+ ' onclick="change(this.id) ">'+ slide + '</button>';
                 });
                 str += '</ul>';
-                document.getElementById("Container").innerHTML = str;
+                document.getElementById("Container").innerHTML = str
                 chatroom.set(senderName,event.data.substring(0,event.data.length-name.length-3))
             }
 

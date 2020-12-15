@@ -33,3 +33,5 @@ shared/.jvm
 .cache
 .target
 bin/
+Tom.txt
+Jim.txt

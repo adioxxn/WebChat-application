@@ -44,7 +44,13 @@ class ChatActor(out: ActorRef, envelop:ActorRef,name:String) extends Actor{
     case Connect=>
     //send the message
     case s: String =>
-      envelop ! ChatEnvelope.Message(username + ": " +s)
+      if(s.split(":").head.equals("Create Chatroom")){
+        envelop ! ChatEnvelope.newChatroom(s.split(":").last)
+
+      }
+      else{
+        envelop ! ChatEnvelope.Message(username + ": " +s)
+      }
 
 
     //receive message from the server
@@ -57,6 +63,11 @@ class ChatActor(out: ActorRef, envelop:ActorRef,name:String) extends Actor{
         allMessage ::= msg
         out ! msg
       }
+
+    case ReceiveChatroom(msg) =>
+
+      out ! "newChatroom,"+msg
+
     case ReceiveUsers(users) =>
       val user = users.toArray
       val userlist ="ActiveUser,"+ user.mkString(",")
@@ -119,6 +130,8 @@ object ChatActor {
 
   case class SendMessage(msg: String)
   case class ReceiveUsers(user: Set[String])
+  case class ReceiveChatroom(name: String)
+
   case object Many
   case object End
   case object Connect
