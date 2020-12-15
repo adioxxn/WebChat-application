@@ -25,6 +25,9 @@ class ChatWorker extends Actor with ActorLogging {
       if (num.equals(1)){
         chatters foreach (x => x._2 ! ChatActor.ReceiveUsers(chatters.keySet))
       }
+    case POP =>
+      print("something")
+
     //when a work receive, send it to the users
     case Message(msg) =>
       val target = msg.split("To:").last //
@@ -58,6 +61,7 @@ class ChatWorker extends Actor with ActorLogging {
 object ChatWorker {
 
   case class Message(msg: String)
+  case object POP
 
   case class update(chatter: Map[String, ActorRef],num: Int)
 }

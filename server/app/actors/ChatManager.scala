@@ -5,6 +5,7 @@ import akka.actor.TypedActor.dispatcher
 import akka.actor.{Actor, ActorRef, Props}
 import akka.pattern.{CircuitBreaker, ask, pipe}
 import akka.util.Timeout
+
 import scala.collection.mutable.Queue
 import scala.collection.mutable
 import scala.concurrent.duration.DurationInt
@@ -95,11 +96,12 @@ class ChatManager(envelope:ActorRef) extends Actor {
     case Work(from, msg) =>
       if (freeWorkers.size > 0) {
 
+
+
         val worker = freeWorkers.head
         freeWorkers = freeWorkers.drop(1)
         busyWorkers = busyWorkers+(worker -> msg)
         worker ! ChatWorker.Message(msg)
-
       }
       else {
         workqueue ::= (from, msg)
