@@ -20,7 +20,7 @@ lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("shared"))
   .settings(
-		name := "Play-Videos-Shared",
+		name := "Play-Chat-Shared",
 		commonSettings,
 		libraryDependencies ++= Seq(
 			"com.typesafe.play" %%% "play-json" % "2.7.0"
